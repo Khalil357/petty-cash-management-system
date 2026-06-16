@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Reports</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="ml-64 p-8">
+
+    <h1 class="text-3xl font-bold mb-6">
+        Reports
+    </h1>
+
+    <div class="grid grid-cols-3 gap-6">
+
+        <div class="bg-white rounded-xl shadow p-6">
+            <h3 class="text-gray-500">Total Requests</h3>
+            <p class="text-4xl font-bold mt-3">25</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-6">
+            <h3 class="text-gray-500">Approved Requests</h3>
+            <p class="text-4xl font-bold mt-3">20</p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-6">
+            <h3 class="text-gray-500">Fund Balance</h3>
+            <p class="text-4xl font-bold mt-3">5,000,000</p>
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

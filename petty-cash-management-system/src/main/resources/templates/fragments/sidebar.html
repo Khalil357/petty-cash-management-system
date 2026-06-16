@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="sidebar"
+     class="w-64 h-screen bg-gray-900 text-white fixed left-0 top-0">
+
+    <div class="p-5 text-2xl font-bold border-b border-gray-700">
+        Petty Cash
+    </div>
+
+    <nav class="mt-5">
+
+        <a href="/"
+           class="block px-5 py-3 hover:bg-gray-700">
+            Dashboard
+        </a>
+
+        <a href="/requests"
+           class="block px-5 py-3 hover:bg-gray-700">
+            Requests
+        </a>
+
+        <a href="/approvals"
+           class="block px-5 py-3 hover:bg-gray-700">
+            Approvals
+        </a>
+
+        <a href="/disbursements"
+           class="block px-5 py-3 hover:bg-gray-700">
+            Disbursements
+        </a>
+
+        <a href="/funds"
+           class="block px-5 py-3 hover:bg-gray-700">
+            Funds
+        </a>
+
+        <a href="/reports"
+           class="block px-5 py-3 hover:bg-gray-700">
+            Reports
+        </a>
+
+    </nav>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Approvals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="ml-64 p-8">
+
+    <h1 class="text-3xl font-bold mb-6">
+        Approvals
+    </h1>
+
+    <div class="bg-white rounded-xl shadow p-6">
+
+        <table class="w-full table-auto border-collapse">
+
+            <thead>
+            <tr class="bg-gray-900 text-white">
+                <th class="p-3 text-left">ID</th>
+                <th class="p-3 text-left">Request</th>
+                <th class="p-3 text-left">Decision</th>
+                <th class="p-3 text-left">Date</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+            <tr th:each="approval : ${approvals}"
+                class="border-b hover:bg-gray-50">
+
+                <td class="p-3" th:text="${approval.id}"></td>
+
+                <td class="p-3"
+                    th:text="${approval.request.id}">
+                </td>
+
+                <td class="p-3"
+                    th:text="${approval.decision}">
+                </td>
+
+                <td class="p-3"
+                    th:text="${approval.manager.fullName}">
+                </td>
+
+                <td class="p-3"
+                    th:text="${approval.approvalDate}">
+                </td>
+
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+</body>
+</html>
