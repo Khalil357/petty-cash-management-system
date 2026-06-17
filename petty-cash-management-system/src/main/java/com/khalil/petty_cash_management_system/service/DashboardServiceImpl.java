@@ -42,9 +42,13 @@ public class DashboardServiceImpl implements DashboardService {
     public java.util.Map<String, Object> getDashboardStats() {
         DashboardDTO dto = getDashboard();
         java.util.Map<String, Object> stats = new java.util.HashMap<>();
+        stats.put("totalUsers", dto.getTotalUsers());
         stats.put("userCount", dto.getTotalUsers());
+        stats.put("totalRequests", dto.getTotalRequests());
         stats.put("pendingCount", dto.getPendingRequests());
         stats.put("approvedCount", dto.getApprovedRequests());
+        stats.put("rejectedCount", dto.getRejectedRequests());
+        stats.put("disbursedRequests", dto.getDisbursedRequests());
         stats.put("fundBalance", dto.getCurrentFundBalance() != null ? dto.getCurrentFundBalance() : java.math.BigDecimal.ZERO);
         return stats;
     }

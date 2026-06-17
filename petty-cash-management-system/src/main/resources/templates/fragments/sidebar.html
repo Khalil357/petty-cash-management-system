@@ -1,48 +1,106 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 
 <div th:fragment="sidebar"
-     class="w-64 h-screen bg-gray-900 text-white fixed left-0 top-0">
+     class="w-64 h-screen bg-slate-900 text-white fixed left-0 top-0 flex flex-col z-50 shadow-xl">
 
-    <div class="p-5 text-2xl font-bold border-b border-gray-700">
-        Petty Cash
+    <!-- Brand -->
+    <div class="p-5 border-b border-slate-700/50">
+        <div class="flex items-center gap-3">
+            <div class="w-9 h-9 bg-indigo-500 rounded-lg flex items-center justify-center shadow-sm">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+            </div>
+            <div>
+                <h1 class="text-base font-bold leading-tight">Petty Cash</h1>
+                <p class="text-[10px] text-slate-400 leading-tight">Management System</p>
+            </div>
+        </div>
     </div>
 
-    <nav class="mt-5">
+    <!-- Navigation -->
+    <nav class="flex-1 p-3 space-y-0.5 overflow-y-auto">
+        <p class="text-[10px] text-slate-500 font-semibold uppercase tracking-widest px-3 pb-1 pt-2">Menu</p>
 
-        <a href="/"
-           class="block px-5 py-3 hover:bg-gray-700">
+        <a href="/dashboard"
+           th:classappend="${#strings.startsWith(currentUri, '/admin/dashboard') or #strings.startsWith(currentUri, '/manager/dashboard') or currentUri == '/dashboard' or currentUri == '/'} ? 'bg-indigo-500/10 text-indigo-300 border-l-2 border-indigo-400' : 'text-slate-300 hover:bg-slate-700/30 hover:text-white border-l-2 border-transparent'"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-r-lg text-sm font-medium transition-all pl-4">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
             Dashboard
         </a>
 
         <a href="/requests"
-           class="block px-5 py-3 hover:bg-gray-700">
+           th:classappend="${#strings.startsWith(currentUri, '/requests')} ? 'bg-indigo-500/10 text-indigo-300 border-l-2 border-indigo-400' : 'text-slate-300 hover:bg-slate-700/30 hover:text-white border-l-2 border-transparent'"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-r-lg text-sm font-medium transition-all pl-4">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             Requests
         </a>
 
-        <a href="/approvals"
-           class="block px-5 py-3 hover:bg-gray-700">
+        <a href="/approvals" sec:authorize="hasRole('MANAGER') or hasRole('ADMIN')"
+           th:classappend="${#strings.startsWith(currentUri, '/approvals')} ? 'bg-indigo-500/10 text-indigo-300 border-l-2 border-indigo-400' : 'text-slate-300 hover:bg-slate-700/30 hover:text-white border-l-2 border-transparent'"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-r-lg text-sm font-medium transition-all pl-4">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             Approvals
         </a>
 
-        <a href="/disbursements"
-           class="block px-5 py-3 hover:bg-gray-700">
+        <a href="/disbursements" sec:authorize="hasRole('ADMIN')"
+           th:classappend="${#strings.startsWith(currentUri, '/disbursements')} ? 'bg-indigo-500/10 text-indigo-300 border-l-2 border-indigo-400' : 'text-slate-300 hover:bg-slate-700/30 hover:text-white border-l-2 border-transparent'"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-r-lg text-sm font-medium transition-all pl-4">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
             Disbursements
         </a>
 
-        <a href="/funds"
-           class="block px-5 py-3 hover:bg-gray-700">
+        <a href="/funds" sec:authorize="hasRole('ADMIN')"
+           th:classappend="${#strings.startsWith(currentUri, '/funds')} ? 'bg-indigo-500/10 text-indigo-300 border-l-2 border-indigo-400' : 'text-slate-300 hover:bg-slate-700/30 hover:text-white border-l-2 border-transparent'"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-r-lg text-sm font-medium transition-all pl-4">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             Funds
         </a>
 
-        <a href="/reports"
-           class="block px-5 py-3 hover:bg-gray-700">
+        <a href="/reports" sec:authorize="hasRole('MANAGER') or hasRole('ADMIN')"
+           th:classappend="${#strings.startsWith(currentUri, '/reports')} ? 'bg-indigo-500/10 text-indigo-300 border-l-2 border-indigo-400' : 'text-slate-300 hover:bg-slate-700/30 hover:text-white border-l-2 border-transparent'"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-r-lg text-sm font-medium transition-all pl-4">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             Reports
         </a>
 
+        <div class="border-t border-slate-700/30 my-2"></div>
+        <p class="text-[10px] text-slate-500 font-semibold uppercase tracking-widest px-3 pb-1 pt-1">Other</p>
+
+        <a href="/transactions"
+           th:classappend="${#strings.startsWith(currentUri, '/transactions')} ? 'bg-indigo-500/10 text-indigo-300 border-l-2 border-indigo-400' : 'text-slate-300 hover:bg-slate-700/30 hover:text-white border-l-2 border-transparent'"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-r-lg text-sm font-medium transition-all pl-4">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+            Transactions
+        </a>
+
+        <a href="/users" sec:authorize="hasRole('ADMIN')"
+           th:classappend="${#strings.startsWith(currentUri, '/users')} ? 'bg-indigo-500/10 text-indigo-300 border-l-2 border-indigo-400' : 'text-slate-300 hover:bg-slate-700/30 hover:text-white border-l-2 border-transparent'"
+           class="flex items-center gap-3 px-3 py-2.5 rounded-r-lg text-sm font-medium transition-all pl-4">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            Users
+        </a>
     </nav>
 
+    <!-- User Info + Logout -->
+    <div class="p-3 border-t border-slate-700/50" sec:authorize="isAuthenticated()">
+        <div class="flex items-center gap-3 px-2 py-2">
+            <div class="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-bold shadow shrink-0">
+                <span sec:authentication="name">U</span>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-medium text-white truncate" sec:authentication="name">user@email.com</p>
+                <p class="text-[10px] text-slate-400 truncate" sec:authentication="principal.authorities">ROLE</p>
+            </div>
+        </div>
+        <a href="/logout"
+           class="flex items-center gap-2 px-3 py-2 text-slate-400 hover:text-white hover:bg-red-500/10 rounded-lg text-sm transition mt-1">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+            Sign Out
+        </a>
+    </div>
 </div>
 
 </body>

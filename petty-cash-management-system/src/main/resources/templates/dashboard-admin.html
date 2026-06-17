@@ -105,28 +105,16 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
-                        <!-- Dummy row 1 -->
-                        <tr class="hover:bg-slate-50 transition">
-                            <td class="px-6 py-4 text-sm text-slate-500">Oct 24, 2026</td>
-                            <td class="px-6 py-4 text-sm font-medium text-slate-800">Sarah Jenkins</td>
-                            <td class="px-6 py-4 text-sm text-slate-500">Office Supplies - Printer Ink</td>
-                            <td class="px-6 py-4 text-sm font-bold text-slate-800 text-right">$120.00</td>
+                        <tr th:each="d : ${recentDisbursements}" class="hover:bg-slate-50 transition">
+                            <td class="px-6 py-4 text-sm text-slate-500" th:text="${#temporals.format(d.disbursementDate, 'MMM dd, yyyy')}">Oct 24</td>
+                            <td class="px-6 py-4 text-sm font-medium text-slate-800" th:text="${d.request.employee.fullName}">Employee</td>
+                            <td class="px-6 py-4 text-sm text-slate-500" th:text="${d.request.purpose}">Purpose</td>
+                            <td class="px-6 py-4 text-sm font-bold text-slate-800 text-right" th:text="'$' + ${d.amount}">$120</td>
                             <td class="px-6 py-4 text-center">
                                 <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">Disbursed</span>
                             </td>
                         </tr>
-                        <!-- Dummy row 2 -->
-                        <tr class="hover:bg-slate-50 transition">
-                            <td class="px-6 py-4 text-sm text-slate-500">Oct 23, 2026</td>
-                            <td class="px-6 py-4 text-sm font-medium text-slate-800">Michael Chang</td>
-                            <td class="px-6 py-4 text-sm text-slate-500">Client Lunch Meeting</td>
-                            <td class="px-6 py-4 text-sm font-bold text-slate-800 text-right">$85.50</td>
-                            <td class="px-6 py-4 text-center">
-                                <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold">Disbursed</span>
-                            </td>
-                        </tr>
-                        <!-- Empty State if no records (for Thymeleaf later) -->
-                        <tr th:if="${false}">
+                        <tr th:if="${#lists.isEmpty(recentDisbursements)}">
                             <td colspan="5" class="px-6 py-10 text-center text-slate-400">
                                 No recent disbursements found.
                             </td>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Reports - Petty Cash Management</title>
+    <title>Transactions - Petty Cash Management</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -15,50 +15,17 @@
 <div class="ml-64 min-h-screen flex flex-col">
 
     <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-8 shadow-sm">
-        <h1 class="text-2xl font-semibold text-slate-800">Reports</h1>
+        <h1 class="text-2xl font-semibold text-slate-800">Transaction History</h1>
         <div class="flex items-center space-x-4">
-            <span sec:authorize="hasRole('ADMIN')" class="text-sm font-medium bg-indigo-100 text-indigo-700 py-1 px-3 rounded-full">Admin</span>
-            <span sec:authorize="hasRole('MANAGER')" class="text-sm font-medium bg-amber-100 text-amber-700 py-1 px-3 rounded-full">Manager</span>
-            <div class="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold shadow text-sm">
-                <span sec:authentication="name">U</span>
-            </div>
+            <div class="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold shadow text-sm">U</div>
         </div>
     </header>
 
     <main class="flex-1 p-8">
 
-        <!-- Summary Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4 mb-8">
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
-                <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Total Requests</p>
-                <p class="text-3xl font-bold text-slate-800 mt-1" th:text="${totalRequests != null ? totalRequests : '0'}">0</p>
-            </div>
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-amber-100">
-                <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Pending</p>
-                <p class="text-3xl font-bold text-amber-600 mt-1" th:text="${pendingCount != null ? pendingCount : '0'}">0</p>
-            </div>
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-blue-100">
-                <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Approved</p>
-                <p class="text-3xl font-bold text-blue-600 mt-1" th:text="${approvedCount != null ? approvedCount : '0'}">0</p>
-            </div>
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-emerald-100">
-                <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Disbursed</p>
-                <p class="text-3xl font-bold text-emerald-600 mt-1" th:text="${disbursedRequests != null ? disbursedRequests : '0'}">0</p>
-            </div>
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-red-100">
-                <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Rejected</p>
-                <p class="text-3xl font-bold text-red-600 mt-1" th:text="${rejectedCount != null ? rejectedCount : '0'}">0</p>
-            </div>
-            <div class="bg-gradient-to-br from-slate-800 to-slate-900 p-5 rounded-xl shadow-sm">
-                <p class="text-xs text-slate-300 font-medium uppercase tracking-wider">Fund Balance</p>
-                <p class="text-3xl font-bold text-white mt-1" th:text="'$' + ${#numbers.formatDecimal(fundBalance != null ? fundBalance : 0, 1, 2)}">$0</p>
-            </div>
-        </div>
-
-        <!-- Transaction History -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
             <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                <h3 class="text-lg font-semibold text-slate-800">All Transactions</h3>
+                <h3 class="text-lg font-semibold text-slate-800">All Fund Transactions</h3>
                 <span class="text-sm text-slate-400" th:text="${#lists.size(transactions)} + ' record(s)'">0 records</span>
             </div>
             <div class="overflow-x-auto">
@@ -89,7 +56,10 @@
                         </tr>
                         <tr th:if="${#lists.isEmpty(transactions)}">
                             <td colspan="4" class="px-6 py-12 text-center text-slate-400">
-                                <p class="text-sm font-medium">No transactions yet</p>
+                                <div class="flex flex-col items-center gap-2">
+                                    <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                                    <p class="text-sm font-medium">No transactions recorded</p>
+                                </div>
                             </td>
                         </tr>
                     </tbody>

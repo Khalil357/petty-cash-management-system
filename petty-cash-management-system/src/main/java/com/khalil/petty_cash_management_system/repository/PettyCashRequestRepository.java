@@ -20,4 +20,8 @@ public interface PettyCashRequestRepository
     java.util.List<PettyCashRequest> findTop5ByStatusOrderByRequestDateAsc(RequestStatus status);
 
     java.util.List<PettyCashRequest> findTop5ByEmployeeIdOrderByRequestDateDesc(Long employeeId);
+
+    java.util.List<PettyCashRequest> findByEmployeeIdOrderByRequestDateDesc(Long employeeId);
+
+    java.util.List<PettyCashRequest> findByStatus(RequestStatus status);
 }

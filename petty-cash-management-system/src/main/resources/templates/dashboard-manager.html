@@ -111,7 +111,7 @@
                         <!-- Dynamic Row -->
                         <tr th:each="req : ${pendingRequests}" class="hover:bg-slate-50 transition">
                             <td class="px-6 py-4 text-sm text-slate-500" th:text="${req.requestDate}">Oct 25, 2026</td>
-                            <td class="px-6 py-4 text-sm font-medium text-slate-800" th:text="${req.employee != null ? req.employee.firstName + ' ' + req.employee.lastName : 'Unknown'}">John Doe</td>
+                            <td class="px-6 py-4 text-sm font-medium text-slate-800" th:text="${req.employee != null ? req.employee.fullName : 'Unknown'}">John Doe</td>
                             <td class="px-6 py-4 text-sm text-slate-500" th:text="${req.purpose}">Travel Expense</td>
                             <td class="px-6 py-4 text-sm font-bold text-slate-800" th:text="'$' + ${req.amount}">$45.00</td>
                             <td class="px-6 py-4 text-right space-x-2">

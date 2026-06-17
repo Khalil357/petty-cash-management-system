@@ -38,6 +38,6 @@ public class FundTransaction {
 
     @PrePersist
     public void prePersist() {
-        transactionDate = LocalDateTime.now();
+        if (transactionDate == null) transactionDate = LocalDateTime.now();
     }
 }

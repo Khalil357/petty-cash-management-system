@@ -36,6 +36,6 @@ public class Approval {
 
     @PrePersist
     public void prePersist() {
-        approvalDate = LocalDateTime.now();
+        if (approvalDate == null) approvalDate = LocalDateTime.now();
     }
 }

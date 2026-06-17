@@ -35,6 +35,6 @@ public class Disbursement {
 
     @PrePersist
     public void prePersist() {
-        disbursementDate = LocalDateTime.now();
+        if (disbursementDate == null) disbursementDate = LocalDateTime.now();
     }
 }

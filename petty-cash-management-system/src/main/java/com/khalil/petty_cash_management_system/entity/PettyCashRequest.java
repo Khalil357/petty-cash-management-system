@@ -37,7 +37,7 @@ public class PettyCashRequest {
 
     @PrePersist
     public void prePersist() {
-        requestDate = LocalDate.now();
-        status = RequestStatus.PENDING;
+        if (requestDate == null) requestDate = LocalDate.now();
+        if (status == null) status = RequestStatus.PENDING;
     }
 }

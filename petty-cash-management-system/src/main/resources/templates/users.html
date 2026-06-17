@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Users - Petty Cash Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+<div class="ml-64 min-h-screen flex flex-col">
+
+    <header class="bg-white border-b border-slate-200 h-16 flex items-center justify-between px-8 shadow-sm">
+        <h1 class="text-2xl font-semibold text-slate-800">User Management</h1>
+        <div class="flex items-center space-x-4">
+            <span class="text-sm font-medium bg-indigo-100 text-indigo-700 py-1 px-3 rounded-full">Admin</span>
+            <div class="w-10 h-10 rounded-full bg-slate-800 text-white flex items-center justify-center font-bold shadow text-sm">U</div>
+        </div>
+    </header>
+
+    <main class="flex-1 p-8">
+
+        <!-- Flash Messages -->
+        <div th:if="${success}" class="mb-6 bg-emerald-50 border border-emerald-200 text-emerald-700 px-5 py-3 rounded-xl text-sm flex items-center gap-2">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span th:text="${success}">Success</span>
+        </div>
+        <div th:if="${error}" class="mb-6 bg-red-50 border border-red-200 text-red-700 px-5 py-3 rounded-xl text-sm flex items-center gap-2">
+            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span th:text="${error}">Error</span>
+        </div>
+
+        <!-- Create User Form -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 p-6 mb-8">
+            <div class="flex items-center justify-between mb-5">
+                <h2 class="text-lg font-semibold text-slate-800">Create New User</h2>
+            </div>
+            <form th:action="@{/admin/users/create}" method="post" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+                    <input type="text" name="fullName" required
+                           class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm"
+                           placeholder="John Doe">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                    <input type="email" name="email" required
+                           class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm"
+                           placeholder="john@company.com">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Password</label>
+                    <input type="password" name="password" required minlength="6"
+                           class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm"
+                           placeholder="Min 6 characters">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Phone</label>
+                    <input type="text" name="phone"
+                           class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm"
+                           placeholder="+1-555-0100">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Role</label>
+                    <select name="roleId" required
+                            class="w-full px-4 py-2.5 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition text-sm bg-white">
+                        <option value="">-- Select Role --</option>
+                        <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}">Admin</option>
+                    </select>
+                </div>
+                <div class="flex items-end">
+                    <button type="submit"
+                            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-sm text-sm">
+                        Create User
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Users Table -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+            <div class="px-6 py-5 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+                <h3 class="text-lg font-semibold text-slate-800">System Users</h3>
+                <span class="text-sm text-slate-400" th:text="${#lists.size(users)} + ' user(s)'">0 users</span>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-white text-slate-400 text-xs uppercase tracking-wider">
+                            <th class="px-6 py-4 font-medium">Name</th>
+                            <th class="px-6 py-4 font-medium">Email</th>
+                            <th class="px-6 py-4 font-medium">Phone</th>
+                            <th class="px-6 py-4 font-medium">Role</th>
+                            <th class="px-6 py-4 font-medium text-center">Status</th>
+                            <th class="px-6 py-4 font-medium">Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr th:each="u : ${users}" class="hover:bg-slate-50 transition">
+                            <td class="px-6 py-4 text-sm font-medium text-slate-800" th:text="${u.fullName}">Name</td>
+                            <td class="px-6 py-4 text-sm text-slate-500 font-mono" th:text="${u.email}">email@test.com</td>
+                            <td class="px-6 py-4 text-sm text-slate-500" th:text="${u.phone}">+1-555-0100</td>
+                            <td class="px-6 py-4">
+                                <span th:if="${u.role.name.name() == 'ADMIN'}"
+                                      class="inline-block bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-xs font-semibold">Admin</span>
+                                <span th:if="${u.role.name.name() == 'MANAGER'}"
+                                      class="inline-block bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-semibold">Manager</span>
+                                <span th:if="${u.role.name.name() == 'EMPLOYEE'}"
+                                      class="inline-block bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold">Employee</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span th:if="${u.active}"
+                                      class="inline-block bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-xs font-semibold">Active</span>
+                                <span th:unless="${u.active}"
+                                      class="inline-block bg-slate-100 text-slate-500 px-3 py-1 rounded-full text-xs font-semibold">Inactive</span>
+                            </td>
+                            <td class="px-6 py-4 text-sm text-slate-500" th:text="${#temporals.format(u.createdAt, 'MMM dd, yyyy')}">Jan 01</td>
+                        </tr>
+                        <tr th:if="${#lists.isEmpty(users)}">
+                            <td colspan="6" class="px-6 py-12 text-center text-slate-400">
+                                <p class="text-sm font-medium">No users found</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>
